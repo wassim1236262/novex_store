@@ -1,0 +1,122 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#111111">
+<title>NOVEX | متجر التسوق</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f5f5f5;color:#171717}
+header{background:#111;color:white;padding:22px 18px}
+nav{display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:30px;font-weight:900;letter-spacing:3px}
+nav button{background:white;color:#111;border:0;padding:10px 15px;border-radius:8px;font-weight:bold}
+.hero{background:#171717;color:white;text-align:center;padding:48px 18px}
+.hero h1{font-size:36px;letter-spacing:3px;margin:0 0 12px}
+.hero p{color:#ccc}
+.hero a{display:inline-block;background:white;color:#111;padding:13px 25px;border-radius:8px;text-decoration:none;font-weight:bold;margin-top:12px}
+h2{text-align:center;margin:30px 0 20px}
+.products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;padding:12px}
+.product{background:white;border-radius:12px;overflow:hidden;padding-bottom:15px;text-align:center;box-shadow:0 2px 9px #00000010}
+.product img{width:100%;height:145px;object-fit:cover;background:#eee}
+.product h3{font-size:16px}
+.price{font-weight:bold;font-size:18px}
+.product button{background:#111;color:white;border:0;padding:10px 15px;border-radius:7px;margin-top:8px}
+.cart{background:white;margin:18px 12px;padding:18px;border-radius:12px}
+.cart-item{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid #eee}
+.order{width:100%;background:#111;color:white;border:0;padding:14px;border-radius:8px;font-size:16px;margin-top:12px}
+footer{background:#111;color:#ccc;text-align:center;padding:25px;margin-top:30px}
+</style>
+</head>
+<body>
+
+<header>
+<nav>
+<div class="logo">NOVEX</div>
+<button onclick="document.getElementById('cart').scrollIntoView()">🛒 السلة (<span id="count">0</span>)</button>
+</nav>
+</header>
+
+<section class="hero">
+<h1>NOVEX</h1>
+<p>اكتشف منتجاتك المفضلة في مكان واحد</p>
+<p>تسوق بسهولة، أينما كنت في المغرب</p>
+<a href="#products">اكتشف المنتجات</a>
+</section>
+
+<h2 id="products">منتجاتنا</h2>
+
+<section class="products">
+<div class="product">
+<img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500" alt="سماعات">
+<h3>سماعات لاسلكية</h3>
+<div class="price">149 درهم</div>
+<button onclick="add('سماعات لاسلكية',149)">أضف إلى السلة</button>
+</div>
+
+<div class="product">
+<img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500" alt="ساعة">
+<h3>ساعة أنيقة</h3>
+<div class="price">199 درهم</div>
+<button onclick="add('ساعة أنيقة',199)">أضف إلى السلة</button>
+</div>
+
+<div class="product">
+<img src="https://images.unsplash.com/photo-1503602642458-232111445657?w=500" alt="منتج">
+<h3>إكسسوارات عصرية</h3>
+<div class="price">99 درهم</div>
+<button onclick="add('إكسسوارات عصرية',99)">أضف إلى السلة</button>
+</div>
+
+<div class="product">
+<img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=500" alt="كاميرا">
+<h3>كاميرا صغيرة</h3>
+<div class="price">299 درهم</div>
+<button onclick="add('كاميرا صغيرة',299)">أضف إلى السلة</button>
+</div>
+</section>
+
+<section class="cart" id="cart">
+<h2>🛒 سلة المشتريات</h2>
+<div id="items">السلة فارغة حالياً</div>
+<h3>المجموع: <span id="total">0</span> درهم</h3>
+<button class="order" onclick="checkout()">اطلب عبر WhatsApp</button>
+</section>
+
+<footer>
+<h2>NOVEX</h2>
+<p>متجرك الإلكتروني المفضل</p>
+<p>© 2026 NOVEX - جميع الحقوق محفوظة</p>
+</footer>
+
+<script>
+let cart=[];
+function add(name,price){
+let item=cart.find(x=>x.name===name);
+if(item)item.qty++;
+else cart.push({name,price,qty:1});
+render();
+}
+function render(){
+document.getElementById('count').textContent=
+cart.reduce((s,x)=>s+x.qty,0);
+document.getElementById('total').textContent=
+cart.reduce((s,x)=>s+x.price*x.qty,0);
+document.getElementById('items').innerHTML=cart.length?
+cart.map(x=>`<div class="cart-item">
+<span>${x.name} × ${x.qty}</span>
+<span>${x.price*x.qty} درهم</span>
+</div>`).join(''):'السلة فارغة حالياً';
+}
+function checkout(){
+if(!cart.length){alert('أضف منتجاً أولاً');return;}
+let message='السلام عليكم، أريد طلب:\n'+
+cart.map(x=>x.name+' × '+x.qty).join('\n')+
+'\nالمجموع: '+cart.reduce((s,x)=>s+x.price*x.qty,0)+' درهم';
+alert('المتجر يحتاج إضافة رقم WhatsApp الخاص بالطلبات قبل تفعيل إرسال الطلبات.');
+}
+</script>
+</body>
+</html>
