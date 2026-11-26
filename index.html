@@ -1,33 +1,50 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#111111">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="NOVEX">
 <title>NOVEX | متجر التسوق</title>
 <style>
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,sans-serif;background:#f5f5f5;color:#171717}
 header{background:#111;color:white;padding:22px 18px}
-nav{display:flex;justify-content:space-between;align-items:center}
+nav{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
 .logo{font-size:30px;font-weight:900;letter-spacing:3px}
-nav button{background:white;color:#111;border:0;padding:10px 15px;border-radius:8px;font-weight:bold}
+.nav-actions{display:flex;gap:8px;align-items:center}
+nav button{background:white;color:#111;border:0;padding:10px 14px;border-radius:8px;font-weight:bold;cursor:pointer}
+nav button.admin-toggle{background:#2b2b2b;color:#fff;border:1px solid #444}
 .hero{background:#171717;color:white;text-align:center;padding:48px 18px}
 .hero h1{font-size:36px;letter-spacing:3px;margin:0 0 12px}
 .hero p{color:#ccc}
 .hero a{display:inline-block;background:white;color:#111;padding:13px 25px;border-radius:8px;text-decoration:none;font-weight:bold;margin-top:12px}
 h2{text-align:center;margin:30px 0 20px}
 .products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;padding:12px}
-.product{background:white;border-radius:12px;overflow:hidden;padding-bottom:15px;text-align:center;box-shadow:0 2px 9px #00000010}
+.product{background:white;border-radius:12px;overflow:hidden;padding-bottom:15px;text-align:center;box-shadow:0 2px 9px #00000010;position:relative}
 .product img{width:100%;height:145px;object-fit:cover;background:#eee}
-.product h3{font-size:16px}
+.product h3{font-size:16px;margin:10px 8px 6px}
 .price{font-weight:bold;font-size:18px}
-.product button{background:#111;color:white;border:0;padding:10px 15px;border-radius:7px;margin-top:8px}
+.product button.add-btn{background:#111;color:white;border:0;padding:10px 15px;border-radius:7px;margin-top:8px;cursor:pointer}
+.del-btn{position:absolute;top:8px;left:8px;background:#dc2626;color:#fff;border:0;border-radius:6px;padding:5px 9px;font-size:12px;font-weight:bold;cursor:pointer;display:none}
 .cart{background:white;margin:18px 12px;padding:18px;border-radius:12px}
 .cart-item{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid #eee}
-.order{width:100%;background:#111;color:white;border:0;padding:14px;border-radius:8px;font-size:16px;margin-top:12px}
+.order{width:100%;background:#111;color:white;border:0;padding:14px;border-radius:8px;font-size:16px;margin-top:12px;cursor:pointer;font-weight:bold}
 footer{background:#111;color:#ccc;text-align:center;padding:25px;margin-top:30px}
+
+/* نافذة إضافة المنتجات */
+.modal{display:none;position:fixed;inset:0;background:#00000099;z-index:999;justify-content:center;align-items:center;padding:14px}
+.modal-box{background:#fff;color:#111;width:100%;max-width:420px;border-radius:12px;padding:20px}
+.modal-box h3{margin-top:0;margin-bottom:14px;text-align:center}
+.field{margin-bottom:12px;text-align:right}
+.field label{display:block;font-size:14px;font-weight:bold;margin-bottom:5px}
+.field input{width:100%;padding:10px;border:1px solid #ccc;border-radius:8px;font-size:14px}
+.modal-actions{display:flex;gap:8px;margin-top:14px}
+.modal-actions button{flex:1;padding:11px;border:0;border-radius:8px;font-weight:bold;cursor:pointer}
+.save-btn{background:#111;color:#fff}
+.cancel-btn{background:#e5e5e5;color:#111}
+.hint{font-size:12px;color:#666;margin-top:10px;line-height:1.5}
 </style>
 </head>
 <body>
@@ -35,7 +52,10 @@ footer{background:#111;color:#ccc;text-align:center;padding:25px;margin-top:30px
 <header>
 <nav>
 <div class="logo">NOVEX</div>
+<div class="nav-actions">
+<button class="admin-toggle" onclick="openAdmin()">+ المنتجات</button>
 <button onclick="document.getElementById('cart').scrollIntoView()">🛒 السلة (<span id="count">0</span>)</button>
+</div>
 </nav>
 </header>
 
@@ -48,35 +68,7 @@ footer{background:#111;color:#ccc;text-align:center;padding:25px;margin-top:30px
 
 <h2 id="products">منتجاتنا</h2>
 
-<section class="products">
-<div class="product">
-<img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500" alt="سماعات">
-<h3>سماعات لاسلكية</h3>
-<div class="price">149 درهم</div>
-<button onclick="add('سماعات لاسلكية',149)">أضف إلى السلة</button>
-</div>
-
-<div class="product">
-<img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500" alt="ساعة">
-<h3>ساعة أنيقة</h3>
-<div class="price">199 درهم</div>
-<button onclick="add('ساعة أنيقة',199)">أضف إلى السلة</button>
-</div>
-
-<div class="product">
-<img src="https://images.unsplash.com/photo-1503602642458-232111445657?w=500" alt="منتج">
-<h3>إكسسوارات عصرية</h3>
-<div class="price">99 درهم</div>
-<button onclick="add('إكسسوارات عصرية',99)">أضف إلى السلة</button>
-</div>
-
-<div class="product">
-<img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=500" alt="كاميرا">
-<h3>كاميرا صغيرة</h3>
-<div class="price">299 درهم</div>
-<button onclick="add('كاميرا صغيرة',299)">أضف إلى السلة</button>
-</div>
-</section>
+<section class="products" id="productsList"></section>
 
 <section class="cart" id="cart">
 <h2>🛒 سلة المشتريات</h2>
@@ -91,32 +83,186 @@ footer{background:#111;color:#ccc;text-align:center;padding:25px;margin-top:30px
 <p>© 2026 NOVEX - جميع الحقوق محفوظة</p>
 </footer>
 
+<!-- نافذة إضافة منتج -->
+<div class="modal" id="adminModal">
+<div class="modal-box">
+<h3>إضافة منتج جديد إلى NOVEX</h3>
+<div class="field">
+<label>اسم المنتج</label>
+<input type="text" id="pName" placeholder="مثال: حذاء رياضي">
+</div>
+<div class="field">
+<label>السعر (بالدرهم)</label>
+<input type="number" id="pPrice" placeholder="مثال: 220">
+</div>
+<div class="field">
+<label>صورة من الهاتف (اختياري)</label>
+<input type="file" id="pFile" accept="image/*">
+</div>
+<div class="field">
+<label>أو رابط صورة مباشر</label>
+<input type="text" id="pUrl" placeholder="https://...">
+</div>
+<div class="modal-actions">
+<button class="save-btn" onclick="addProduct()">إضافة المنتج</button>
+<button class="cancel-btn" onclick="closeAdmin()">إغلاق</button>
+</div>
+<div class="hint">
+الرمز السري الافتراضي: <b>1234</b> (يمكنك تغييره في الكود).<br>
+ملاحظة: المنتجات المضافة من هنا تُحفظ في متصفحك، ولإظهارها لجميع الزوار بشكل دائم يمكنك إضافتها في قائمة <b>defaultProducts</b> داخل الكود.
+</div>
+</div>
+</div>
+
 <script>
-let cart=[];
-function add(name,price){
-let item=cart.find(x=>x.name===name);
-if(item)item.qty++;
-else cart.push({name,price,qty:1});
+const WHATSAPP_NUMBER = "212641310872";
+const ADMIN_CODE = "1234";
+
+const defaultProducts = [
+  {
+    id: 1,
+    name: "سماعات لاسلكية",
+    price: 149,
+    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500"
+  },
+  {
+    id: 2,
+    name: "ساعة أنيقة",
+    price: 199,
+    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500"
+  },
+  {
+    id: 3,
+    name: "إكسسوارات عصرية",
+    price: 99,
+    image: "https://images.unsplash.com/photo-1503602642458-232111445657?w=500"
+  },
+  {
+    id: 4,
+    name: "كاميرا صغيرة",
+    price: 299,
+    image: "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=500"
+  }
+];
+
+let products = JSON.parse(localStorage.getItem("novex_products_v1")) || defaultProducts;
+let cart = [];
+let adminUnlocked = false;
+
+function escapeText(str) {
+  return String(str).replace(/[&<>"']/g, m => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+  }[m]));
+}
+
+function renderProducts() {
+  const container = document.getElementById("productsList");
+  container.innerHTML = products.map(p => `
+    <div class="product">
+      <button class="del-btn" style="display:${adminUnlocked ? "block" : "none"}" onclick="deleteProduct(${p.id})">حذف</button>
+      <img src="${escapeText(p.image)}" alt="${escapeText(p.name)}">
+      <h3>${escapeText(p.name)}</h3>
+      <div class="price">${Number(p.price)} درهم</div>
+      <button class="add-btn" onclick="add(${JSON.stringify(p.name)}, ${Number(p.price)})">أضف إلى السلة</button>
+    </div>
+  `).join("");
+}
+
+function openAdmin() {
+  if (!adminUnlocked) {
+    const code = prompt("أدخل رمز الإدارة:");
+    if (code !== ADMIN_CODE) {
+      if (code !== null) alert("الرمز غير صحيح");
+      return;
+    }
+    adminUnlocked = true;
+    renderProducts();
+  }
+  document.getElementById("adminModal").style.display = "flex";
+}
+
+function closeAdmin() {
+  document.getElementById("adminModal").style.display = "none";
+}
+
+function addProduct() {
+  const name = document.getElementById("pName").value.trim();
+  const price = Number(document.getElementById("pPrice").value);
+  const url = document.getElementById("pUrl").value.trim();
+  const file = document.getElementById("pFile").files[0];
+
+  if (!name || !price || price <= 0) {
+    alert("يرجى إدخال اسم المنتج وسعر صحيح");
+    return;
+  }
+
+  const finishAdd = (imgSrc) => {
+    products.unshift({
+      id: Date.now(),
+      name: name,
+      price: price,
+      image: imgSrc || "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500"
+    });
+    localStorage.setItem("novex_products_v1", JSON.stringify(products));
+    renderProducts();
+    document.getElementById("pName").value = "";
+    document.getElementById("pPrice").value = "";
+    document.getElementById("pUrl").value = "";
+    document.getElementById("pFile").value = "";
+    closeAdmin();
+  };
+
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = e => finishAdd(e.target.result);
+    reader.readAsDataURL(file);
+  } else {
+    finishAdd(url);
+  }
+}
+
+function deleteProduct(id) {
+  if (!confirm("هل تريد حذف هذا المنتج؟")) return;
+  products = products.filter(p => p.id !== id);
+  localStorage.setItem("novex_products_v1", JSON.stringify(products));
+  renderProducts();
+}
+
+function add(name, price) {
+  let item = cart.find(x => x.name === name);
+  if (item) item.qty++;
+  else cart.push({ name, price, qty: 1 });
+  render();
+}
+
+function render() {
+  document.getElementById("count").textContent = cart.reduce((s, x) => s + x.qty, 0);
+  document.getElementById("total").textContent = cart.reduce((s, x) => s + x.price * x.qty, 0);
+  document.getElementById("items").innerHTML = cart.length
+    ? cart.map(x => `<div class="cart-item"><span>${escapeText(x.name)} × ${x.qty}</span><span>${x.price * x.qty} درهم</span></div>`).join("")
+    : "السلة فارغة حالياً";
+}
+
+function checkout() {
+  if (!cart.length) {
+    alert("أضف منتجاً أولاً");
+    return;
+  }
+  const total = cart.reduce((s, x) => s + x.price * x.qty, 0);
+  const message =
+    "السلام عليكم، أريد طلب من متجر NOVEX:\n" +
+    cart.map(x => `- ${x.name} × ${x.qty} (${x.price * x.qty} درهم)`).join("\n") +
+    `\nالمجموع: ${total} درهم`;
+
+  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+  window.open(url, "_blank");
+}
+
+renderProducts();
 render();
-}
-function render(){
-document.getElementById('count').textContent=
-cart.reduce((s,x)=>s+x.qty,0);
-document.getElementById('total').textContent=
-cart.reduce((s,x)=>s+x.price*x.qty,0);
-document.getElementById('items').innerHTML=cart.length?
-cart.map(x=>`<div class="cart-item">
-<span>${x.name} × ${x.qty}</span>
-<span>${x.price*x.qty} درهم</span>
-</div>`).join(''):'السلة فارغة حالياً';
-}
-function checkout(){
-if(!cart.length){alert('أضف منتجاً أولاً');return;}
-let message='السلام عليكم، أريد طلب:\n'+
-cart.map(x=>x.name+' × '+x.qty).join('\n')+
-'\nالمجموع: '+cart.reduce((s,x)=>s+x.price*x.qty,0)+' درهم';
-alert('المتجر يحتاج إضافة رقم WhatsApp الخاص بالطلبات قبل تفعيل إرسال الطلبات.');
-}
 </script>
 </body>
 </html>
+
+
+
