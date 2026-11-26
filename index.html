@@ -3,287 +3,350 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NOVEX - تسوق بأفضل العروض</title>
+  <title>NOVEX PRO - المتجر الأسطوري للعروض</title>
   <style>
     :root {
-      --primary: #ff4747;
-      --primary-dark: #e62e04;
-      --bg: #f4f4f4;
+      --primary: #ff3b30;
+      --primary-grad: linear-gradient(135deg, #ff2a5f, #ff6a00);
+      --dark: #111318;
+      --bg: #f2f4f8;
       --card: #ffffff;
-      --text: #191919;
-      --muted: #757575;
+      --text: #181a20;
+      --muted: #6e7687;
+      --green: #00b578;
+      --gold: #ffb800;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
-    body { background: var(--bg); color: var(--text); padding-bottom: 100px; }
+    body { background: var(--bg); color: var(--text); padding-bottom: 90px; }
+
+    /* Top Announcement Bar */
+    .top-ticker {
+      background: var(--dark);
+      color: #fff;
+      font-size: 12px;
+      text-align: center;
+      padding: 6px 10px;
+      font-weight: 600;
+    }
+    .top-ticker span { color: var(--gold); font-weight: 800; }
 
     /* Header */
     header {
-      background: linear-gradient(135deg, #ff4747, #ff6a00);
+      background: var(--primary-grad);
       color: #fff;
-      padding: 12px 14px;
+      padding: 12px 14px 14px;
       position: sticky;
       top: 0;
       z-index: 100;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      box-shadow: 0 4px 16px rgba(255, 59, 48, 0.25);
     }
-    .top-bar { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
-    .logo { font-size: 22px; font-weight: 900; letter-spacing: 1px; }
-    .cart-btn {
+    .nav-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+    .brand { display: flex; align-items: center; gap: 6px; }
+    .logo { font-size: 24px; font-weight: 900; letter-spacing: 1px; }
+    .pro-badge {
+      background: #111; color: var(--gold); font-size: 10px; font-weight: 900;
+      padding: 2px 6px; border-radius: 6px;
+    }
+    .header-actions { display: flex; gap: 8px; }
+    .icon-pill {
       background: rgba(255,255,255,0.2);
-      border: 1px solid rgba(255,255,255,0.4);
+      border: 1px solid rgba(255,255,255,0.35);
       color: #fff;
-      padding: 6px 12px;
+      padding: 6px 11px;
       border-radius: 20px;
-      font-weight: bold;
+      font-size: 13px;
+      font-weight: 700;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      backdrop-filter: blur(6px);
     }
-    .search-box {
+    .search-bar {
       display: flex;
       background: #fff;
-      border-radius: 24px;
-      padding: 4px 12px;
+      border-radius: 25px;
+      padding: 4px 14px;
       align-items: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
-    .search-box input {
-      border: none;
-      outline: none;
-      width: 100%;
-      padding: 6px;
-      font-size: 14px;
-      color: var(--text);
+    .search-bar input {
+      border: none; outline: none; width: 100%; padding: 6px 8px; font-size: 14px; color: var(--text);
     }
 
     /* Categories */
     .categories {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding: 10px 14px;
-      background: #fff;
-      border-bottom: 1px solid #eee;
-      scrollbar-width: none;
+      display: flex; gap: 8px; overflow-x: auto; padding: 10px 14px;
+      background: #fff; border-bottom: 1px solid #e6e8ec; scrollbar-width: none;
     }
     .categories::-webkit-scrollbar { display: none; }
     .cat-btn {
-      background: #f2f2f2;
-      border: none;
-      padding: 7px 14px;
-      border-radius: 18px;
-      font-size: 13px;
-      font-weight: 600;
-      white-space: nowrap;
-      cursor: pointer;
-      color: #333;
+      background: #f0f2f5; border: none; padding: 7px 15px; border-radius: 20px;
+      font-size: 13px; font-weight: 700; white-space: nowrap; cursor: pointer; color: #444;
+      transition: 0.2s;
     }
-    .cat-btn.active { background: #191919; color: #fff; }
+    .cat-btn.active { background: var(--dark); color: #fff; transform: scale(1.03); }
 
-    /* Promo Banner */
-    .banner {
+    /* Hero Flash Sale Banner */
+    .flash-banner {
       margin: 12px 14px;
-      background: linear-gradient(90deg, #191919, #3a3a3a);
+      background: linear-gradient(135deg, #14161d, #272b38);
       color: #fff;
-      border-radius: 14px;
+      border-radius: 16px;
       padding: 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.14);
     }
-    .banner h2 { font-size: 18px; color: #ffcf40; margin-bottom: 4px; }
-    .banner p { font-size: 12px; color: #ddd; }
-    .badge-deal {
-      background: var(--primary);
-      padding: 6px 10px;
-      border-radius: 8px;
-      font-weight: bold;
-      font-size: 12px;
+    .flash-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .flash-title { font-size: 18px; font-weight: 900; color: #ffcf40; }
+    .timer { display: flex; gap: 4px; direction: ltr; }
+    .timer span {
+      background: var(--primary); color: #fff; font-weight: 900; font-size: 12px;
+      padding: 4px 7px; border-radius: 6px;
     }
+    .flash-sub { font-size: 12px; color: #d0d5dd; }
+
+    /* Free Shipping Progress */
+    .shipping-bar-box {
+      margin: 0 14px 12px;
+      background: #fff;
+      padding: 10px 14px;
+      border-radius: 12px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+    .shipping-text { font-size: 12px; font-weight: 700; margin-bottom: 6px; color: #222; }
+    .progress-track { width: 100%; height: 7px; background: #e9ecef; border-radius: 10px; overflow: hidden; }
+    .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #00b578, #00d68f); transition: width 0.3s ease; }
 
     /* Products Grid */
-    .section-title { padding: 4px 14px 10px; font-size: 16px; font-weight: 800; }
+    .section-head {
+      padding: 4px 14px 10px; display: flex; justify-content: space-between; align-items: center;
+    }
+    .section-head h3 { font-size: 17px; font-weight: 900; }
+    .sort-select {
+      border: 1px solid #ddd; background: #fff; border-radius: 8px; padding: 4px 8px; font-size: 12px; font-weight: 600;
+    }
     .grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      padding: 0 14px;
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 11px; padding: 0 14px;
     }
     .card {
-      background: var(--card);
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      background: var(--card); border-radius: 14px; overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06); display: flex; flex-direction: column;
+      justify-content: space-between; position: relative; transition: transform 0.15s;
     }
-    .card-img {
-      width: 100%;
-      height: 150px;
-      object-fit: cover;
-      background: #eaeaea;
+    .card:active { transform: scale(0.98); }
+    .wish-btn {
+      position: absolute; top: 8px; left: 8px; background: rgba(255,255,255,0.9);
+      border: none; width: 30px; height: 30px; border-radius: 50%; font-size: 15px;
+      cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.12); z-index: 2;
     }
+    .badge-hot {
+      position: absolute; top: 8px; right: 8px; background: var(--primary); color: #fff;
+      font-size: 10px; font-weight: 800; padding: 3px 7px; border-radius: 6px; z-index: 2;
+    }
+    .card-img { width: 100%; height: 155px; object-fit: cover; background: #eaeaea; cursor: pointer; }
     .card-body { padding: 10px; }
     .card-title {
-      font-size: 13px;
-      font-weight: 600;
-      margin-bottom: 6px;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
+      font-size: 13px; font-weight: 700; margin-bottom: 5px; cursor: pointer;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
     }
-    .meta { font-size: 11px; color: var(--muted); margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
-    .star { color: #ff9900; font-weight: bold; }
-    .price-row { display: flex; align-items: baseline; gap: 6px; margin-bottom: 6px; }
+    .meta { font-size: 11px; color: var(--muted); margin-bottom: 6px; display: flex; align-items: center; gap: 5px; }
+    .star { color: var(--gold); font-weight: 900; }
+    .price-row { display: flex; align-items: baseline; gap: 5px; margin-bottom: 5px; flex-wrap: wrap; }
     .price { font-size: 17px; font-weight: 900; color: var(--primary); }
     .old-price { font-size: 11px; color: #999; text-decoration: line-through; }
-    .discount { background: #ffe8e8; color: var(--primary); font-size: 10px; font-weight: bold; padding: 2px 5px; border-radius: 4px; }
-    .shipping { font-size: 11px; color: #00a650; font-weight: 600; margin-bottom: 8px; }
+    .discount { background: #ffe8e8; color: var(--primary); font-size: 10px; font-weight: 800; padding: 2px 5px; border-radius: 4px; }
+    .shipping-tag { font-size: 11px; color: var(--green); font-weight: 700; margin-bottom: 8px; }
     .add-btn {
-      width: 100%;
-      background: var(--primary);
-      color: #fff;
-      border: none;
-      padding: 8px;
-      border-radius: 8px;
-      font-weight: bold;
-      font-size: 13px;
-      cursor: pointer;
+      width: 100%; background: var(--primary-grad); color: #fff; border: none;
+      padding: 9px; border-radius: 9px; font-weight: 800; font-size: 13px; cursor: pointer;
     }
-    .add-btn:active { background: var(--primary-dark); }
 
-    /* Cart Section */
+    /* Cart & Checkout Box */
     .box-card {
-      margin: 18px 14px 0;
-      background: #fff;
-      border-radius: 14px;
-      padding: 16px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+      margin: 18px 14px 0; background: #fff; border-radius: 16px; padding: 16px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.07);
     }
-    .box-card h3 { margin-bottom: 12px; font-size: 17px; }
+    .box-card h3 { margin-bottom: 12px; font-size: 17px; font-weight: 900; }
     .cart-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 8px 0;
-      border-bottom: 1px solid #f0f0f0;
-      font-size: 14px;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 9px 0; border-bottom: 1px solid #f0f0f0; font-size: 14px;
     }
     .qty-controls { display: flex; align-items: center; gap: 8px; }
     .qty-controls button {
-      width: 26px; height: 26px; border-radius: 50%; border: 1px solid #ddd;
-      background: #f9f9f9; font-weight: bold; cursor: pointer;
+      width: 27px; height: 27px; border-radius: 50%; border: 1px solid #ddd;
+      background: #f8f9fa; font-weight: 900; cursor: pointer;
     }
+    .promo-box { display: flex; gap: 6px; margin: 12px 0; }
+    .promo-box input {
+      flex: 1; padding: 8px 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 13px;
+    }
+    .promo-box button {
+      background: var(--dark); color: #fff; border: none; padding: 0 14px; border-radius: 8px; font-weight: 700; cursor: pointer;
+    }
+    .customer-fields { display: grid; gap: 8px; margin: 12px 0; }
+    .customer-fields input {
+      width: 100%; padding: 9px 11px; border: 1px solid #d0d5dd; border-radius: 9px; font-size: 13px;
+    }
+    .summary-line { display: flex; justify-content: space-between; font-size: 13px; color: #555; margin-bottom: 5px; }
     .total-row {
-      display: flex; justify-content: space-between; font-size: 16px;
-      font-weight: 800; margin: 14px 0;
+      display: flex; justify-content: space-between; font-size: 17px;
+      font-weight: 900; margin: 10px 0 14px; padding-top: 8px; border-top: 1px dashed #ddd;
     }
     .wa-btn {
-      width: 100%;
-      background: #25D366;
-      color: #fff;
-      border: none;
-      padding: 12px;
-      border-radius: 10px;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
+      width: 100%; background: #25D366; color: #fff; border: none; padding: 13px;
+      border-radius: 12px; font-size: 15px; font-weight: 900; cursor: pointer;
+      box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
     }
 
     /* Admin Panel */
     .admin-toggle {
-      margin: 16px 14px 0;
-      width: calc(100% - 28px);
-      background: #191919;
-      color: #fff;
-      border: none;
-      padding: 11px;
-      border-radius: 10px;
-      font-weight: bold;
-      cursor: pointer;
+      margin: 16px 14px 0; width: calc(100% - 28px); background: var(--dark); color: #fff;
+      border: none; padding: 12px; border-radius: 12px; font-weight: 800; cursor: pointer;
     }
     .admin-panel {
-      display: none;
-      margin: 12px 14px 0;
-      background: #fff;
-      border: 2px solid #191919;
-      border-radius: 14px;
-      padding: 16px;
+      display: none; margin: 12px 14px 0; background: #fff; border: 2px solid var(--dark);
+      border-radius: 16px; padding: 16px;
     }
     .admin-panel.open { display: block; }
+    .stats-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 14px; }
+    .stat-box { background: #f4f6f9; padding: 10px; border-radius: 10px; text-align: center; }
+    .stat-box strong { display: block; font-size: 18px; color: var(--primary); }
+    .stat-box span { font-size: 11px; color: #555; }
     .form-group { margin-bottom: 10px; }
     .form-group label { display: block; font-size: 12px; font-weight: 700; margin-bottom: 4px; }
     .form-group input, .form-group select {
-      width: 100%;
-      padding: 8px 10px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 14px;
+      width: 100%; padding: 8px 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px;
     }
     .admin-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
-    .btn-save { background: #191919; color: #fff; border: none; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; }
-    .btn-export { background: #0066cc; color: #fff; border: none; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; }
-    .btn-reset { background: #eee; color: #333; border: none; padding: 9px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+    .btn-save { background: var(--dark); color: #fff; border: none; padding: 10px; border-radius: 8px; font-weight: 800; cursor: pointer; }
+    .btn-export { background: #0066cc; color: #fff; border: none; padding: 10px; border-radius: 8px; font-weight: 800; cursor: pointer; }
+    .btn-reset { background: #eee; color: #333; border: none; padding: 9px; border-radius: 8px; font-weight: 700; cursor: pointer; }
     .admin-list-item {
       display: flex; justify-content: space-between; align-items: center;
-      padding: 6px 0; border-bottom: 1px solid #eee; font-size: 13px;
+      padding: 7px 0; border-bottom: 1px solid #eee; font-size: 13px;
     }
-    .del-btn {
-      background: #ffe5e5; color: #d60000; border: none;
-      padding: 4px 8px; border-radius: 6px; font-weight: bold; cursor: pointer;
+    .del-btn { background: #ffe5e5; color: #d60000; border: none; padding: 4px 8px; border-radius: 6px; font-weight: 700; cursor: pointer; }
+
+    /* Quick View Modal */
+    .modal-backdrop {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+      z-index: 200; align-items: center; justify-content: center; padding: 16px;
     }
+    .modal-backdrop.show { display: flex; }
+    .modal-card {
+      background: #fff; border-radius: 18px; max-width: 400px; width: 100%; overflow: hidden;
+      animation: pop 0.2s ease;
+    }
+    @keyframes pop { from { transform: scale(0.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .modal-img { width: 100%; height: 220px; object-fit: cover; }
+    .modal-body { padding: 16px; }
+    .modal-close {
+      float: left; background: #eee; border: none; width: 28px; height: 28px; border-radius: 50%; font-weight: 900; cursor: pointer;
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+      background: #111; color: #fff; padding: 10px 18px; border-radius: 25px;
+      font-size: 13px; font-weight: 700; z-index: 300; opacity: 0; pointer-events: none; transition: 0.25s;
+    }
+    .toast.show { opacity: 1; bottom: 30px; }
   </style>
 </head>
 <body>
 
+  <div class="top-ticker">
+    🎁 استعمل كود <span>NOVEX10</span> للحصول على خصم 10% فوري • توصيل سريع لجميع المدن
+  </div>
+
   <header>
-    <div class="top-bar">
-      <div class="logo">NOVEX</div>
-      <button class="cart-btn" onclick="document.getElementById('cart-section').scrollIntoView({behavior:'smooth'})">
-        🛒 السلة (<span id="cart-count">0</span>)
-      </button>
+    <div class="nav-row">
+      <div class="brand">
+        <div class="logo">NOVEX</div>
+        <span class="pro-badge">PRO</span>
+      </div>
+      <div class="header-actions">
+        <button class="icon-pill" onclick="toggleWishlistFilter()">❤️ (<span id="wish-count">0</span>)</button>
+        <button class="icon-pill" onclick="document.getElementById('cart-section').scrollIntoView({behavior:'smooth'})">
+          🛒 (<span id="cart-count">0</span>)
+        </button>
+      </div>
     </div>
-    <div class="search-box">
+    <div class="search-bar">
       <span>🔍</span>
-      <input type="text" id="search-input" placeholder="ابحث في NOVEX عن منتجات، عروض..." oninput="renderProducts()" />
+      <input type="text" id="search-input" placeholder="ابحث في NOVEX عن منتجات، عروض، ماركات..." oninput="renderProducts()" />
     </div>
   </header>
 
   <div class="categories" id="categories">
-    <button class="cat-btn active" onclick="filterCat('الكل', this)">الكل</button>
-    <button class="cat-btn" onclick="filterCat('إلكترونيات', this)">إلكترونيات</button>
-    <button class="cat-btn" onclick="filterCat('أحذية', this)">أحذية</button>
-    <button class="cat-btn" onclick="filterCat('إكسسوارات', this)">إكسسوارات</button>
-    <button class="cat-btn" onclick="filterCat('أدوات', this)">أدوات</button>
+    <button class="cat-btn active" onclick="filterCat('الكل', this)">🔥 الكل</button>
+    <button class="cat-btn" onclick="filterCat('إلكترونيات', this)">🎧 إلكترونيات</button>
+    <button class="cat-btn" onclick="filterCat('أحذية', this)">👟 أحذية</button>
+    <button class="cat-btn" onclick="filterCat('إكسسوارات', this)">⌚ إكسسوارات</button>
+    <button class="cat-btn" onclick="filterCat('أدوات', this)">🛠️ أدوات</button>
   </div>
 
-  <div class="banner">
-    <div>
-      <h2>⚡ عروض Super Deals</h2>
-      <p>تخفيضات تصل إلى 50% وتوصيل لجميع المدن المغربية</p>
+  <div class="flash-banner">
+    <div class="flash-top">
+      <div class="flash-title">⚡ عروض الفلاش الخارقة</div>
+      <div class="timer">
+        <span id="t-sec">45</span>
+        <span id="t-min">19</span>
+        <span id="t-hr">04</span>
+      </div>
     </div>
-    <div class="badge-deal">عروض اليوم</div>
+    <div class="flash-sub">تخفيضات حصرية لفترة محدودة + الدفع عند الاستلام بكل أمان</div>
   </div>
 
-  <div class="section-title">🔥 الأكثر مبيعاً</div>
+  <div class="shipping-bar-box">
+    <div class="shipping-text" id="shipping-text">🚚 أضف منتجات بقيمة 300 درهم للحصول على توصيل مجاني!</div>
+    <div class="progress-track"><div class="progress-fill" id="shipping-fill"></div></div>
+  </div>
+
+  <div class="section-head">
+    <h3>💎 مختارات NOVEX</h3>
+    <select class="sort-select" id="sort-select" onchange="renderProducts()">
+      <option value="default">الترتيب: الافتراضي</option>
+      <option value="low">السعر: من الأرخص للأغلى</option>
+      <option value="high">السعر: من الأغلى للأرخص</option>
+    </select>
+  </div>
+
   <div class="grid" id="products-grid"></div>
 
   <div class="box-card" id="cart-section">
-    <h3>🛒 سلة المشتريات</h3>
+    <h3>🛒 سلة المشتريات وإتمام الطلب</h3>
     <div id="cart-items"><p style="color:#777; font-size:14px;">السلة فارغة حالياً</p></div>
+
+    <div class="promo-box">
+      <input type="text" id="promo-input" placeholder="كود الخصم (جرب NOVEX10)" />
+      <button onclick="applyPromo()">تطبيق</button>
+    </div>
+
+    <div class="customer-fields">
+      <input type="text" id="cust-name" placeholder="الاسم الكامل للزبون" />
+      <input type="text" id="cust-city" placeholder="المدينة (مثال: الدار البيضاء، الرباط، طنجة...)" />
+      <input type="text" id="cust-address" placeholder="العنوان أو الحي" />
+    </div>
+
+    <div class="summary-line"><span>المجموع الفرعي:</span><span><span id="sub-total">0</span> درهم</span></div>
+    <div class="summary-line" style="color:var(--green);"><span>الخصم المطبق:</span><span>-<span id="discount-val">0</span> درهم</span></div>
     <div class="total-row">
-      <span>المجموع الإجمالي:</span>
+      <span>المجموع النهائي:</span>
       <span style="color:var(--primary)"><span id="cart-total">0</span> درهم</span>
     </div>
-    <button class="wa-btn" onclick="orderWhatsApp()">اطلب الآن عبر WhatsApp</button>
+
+    <button class="wa-btn" onclick="orderWhatsApp()">✅ تأكيد الطلب عبر WhatsApp</button>
   </div>
 
-  <button class="admin-toggle" onclick="toggleAdmin()">⚙️ وضع الأدمن (إضافة وتعديل المنتجات)</button>
+  <button class="admin-toggle" onclick="toggleAdmin()">⚙️ لوحة تحكم الأدمن المتقدمة</button>
 
   <div class="admin-panel" id="admin-panel">
-    <h3 style="margin-bottom:12px;">إضافة منتج جديد</h3>
+    <div class="stats-row">
+      <div class="stat-box"><strong id="stat-products">0</strong><span>عدد المنتجات</span></div>
+      <div class="stat-box"><strong id="stat-cart">0</strong><span>قطع في السلة</span></div>
+    </div>
+
+    <h3 style="margin-bottom:12px;">➕ إضافة منتج جديد</h3>
     <div class="form-group">
       <label>اسم المنتج</label>
       <input type="text" id="p-name" placeholder="مثال: سماعات بلوتوث لاسلكية" />
@@ -306,6 +369,10 @@
       </select>
     </div>
     <div class="form-group">
+      <label>وصف مختصر للمنتج</label>
+      <input type="text" id="p-desc" placeholder="جودة عالية مع ضمان وتوصيل سريع" />
+    </div>
+    <div class="form-group">
       <label>رابط صورة المنتج (URL)</label>
       <input type="text" id="p-img" placeholder="https://..." />
     </div>
@@ -322,39 +389,63 @@
     </div>
   </div>
 
+  <!-- Quick View Modal -->
+  <div class="modal-backdrop" id="product-modal" onclick="if(event.target===this) closeModal()">
+    <div class="modal-card">
+      <img class="modal-img" id="m-img" src="" alt="" />
+      <div class="modal-body">
+        <button class="modal-close" onclick="closeModal()">✕</button>
+        <h3 id="m-title" style="margin-bottom:6px; font-size:17px;"></h3>
+        <p id="m-desc" style="font-size:13px; color:#555; margin-bottom:10px;"></p>
+        <div class="price-row" style="margin-bottom:12px;">
+          <span class="price" id="m-price"></span>
+          <span class="old-price" id="m-old"></span>
+        </div>
+        <button class="add-btn" id="m-add-btn">+ أضف إلى السلة الآن</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
   <script>
     const WHATSAPP_NUMBER = "212641310872";
-    const STORAGE_KEY = "novex_products_v1";
+    const STORAGE_KEY = "novex_products_pro_v1";
+    const WISH_KEY = "novex_wishlist_v1";
+    const FREE_SHIPPING_GOAL = 300;
 
     const defaultProducts = [
       {
         id: 1,
-        name: "كاميرا مراقبة صغيرة WiFi عالية الدقة",
+        name: "كاميرا مراقبة صغيرة WiFi عالية الدقة HD",
         price: 299,
         oldPrice: 450,
         category: "إلكترونيات",
         rating: "4.9",
         sold: "120+ مبيعة",
+        desc: "كاميرا ذكية صغيرة الحجم تدعم الرؤية الليلية والمراقبة المباشرة عبر الهاتف.",
         img: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=500&q=80"
       },
       {
         id: 2,
-        name: "حذاء رياضي مريح للاستخدام اليومي",
+        name: "حذاء رياضي مريح وخفيف للاستخدام اليومي",
         price: 149,
         oldPrice: 250,
         category: "أحذية",
         rating: "4.8",
         sold: "85+ مبيعة",
+        desc: "تصميم عصري ونعل مرن يمنح راحة فائقة طوال اليوم.",
         img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&q=80"
       },
       {
         id: 3,
-        name: "إكسسوارات عصرية وساعة يد أنيقة",
+        name: "ساعة يد أنيقة وإكسسوارات عصرية فاخرة",
         price: 99,
         oldPrice: 180,
         category: "إكسسوارات",
         rating: "4.7",
         sold: "210+ مبيعة",
+        desc: "مقاومة للماء بتصميم أنيق يناسب جميع المناسبات.",
         img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&q=80"
       },
       {
@@ -365,19 +456,50 @@
         category: "أدوات",
         rating: "5.0",
         sold: "500+ مبيعة",
+        desc: "قلم عملي بخط واضح وانسيابية عالية للدراسة والمكتب.",
         img: "https://images.unsplash.com/photo-1585336261022-680e295ce3fe?w=500&q=80"
       }
     ];
 
     let products = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [...defaultProducts];
+    let wishlist = JSON.parse(localStorage.getItem(WISH_KEY)) || [];
     let currentCategory = "الكل";
+    let onlyWishlist = false;
     let cart = [];
+    let activePromo = null;
+
+    function showToast(text) {
+      const t = document.getElementById('toast');
+      t.textContent = text;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2200);
+    }
 
     function saveProducts() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
     }
 
+    function toggleWishlist(id) {
+      if (wishlist.includes(id)) {
+        wishlist = wishlist.filter(w => w !== id);
+        showToast("تمت الإزالة من المفضلة");
+      } else {
+        wishlist.push(id);
+        showToast("❤️ تمت الإضافة إلى المفضلة");
+      }
+      localStorage.setItem(WISH_KEY, JSON.stringify(wishlist));
+      document.getElementById('wish-count').textContent = wishlist.length;
+      renderProducts();
+    }
+
+    function toggleWishlistFilter() {
+      onlyWishlist = !onlyWishlist;
+      showToast(onlyWishlist ? "عرض المفضلة فقط ❤️" : "عرض جميع المنتجات");
+      renderProducts();
+    }
+
     function filterCat(cat, btn) {
+      onlyWishlist = false;
       currentCategory = cat;
       document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
@@ -386,22 +508,31 @@
 
     function renderProducts() {
       const q = document.getElementById('search-input').value.toLowerCase();
+      const sort = document.getElementById('sort-select').value;
       const grid = document.getElementById('products-grid');
-      const filtered = products.filter(p => {
+
+      let filtered = products.filter(p => {
         const matchCat = currentCategory === "الكل" || p.category === currentCategory;
         const matchSearch = p.name.toLowerCase().includes(q);
-        return matchCat && matchSearch;
+        const matchWish = !onlyWishlist || wishlist.includes(p.id);
+        return matchCat && matchSearch && matchWish;
       });
 
+      if (sort === "low") filtered.sort((a, b) => a.price - b.price);
+      if (sort === "high") filtered.sort((a, b) => b.price - a.price);
+
+      const fallbackImg = "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&q=80";
       grid.innerHTML = filtered.map(p => {
         const oldP = p.oldPrice && p.oldPrice > p.price ? p.oldPrice : Math.round(p.price * 1.3);
         const discount = Math.round(((oldP - p.price) / oldP) * 100);
-        const fallbackImg = "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&q=80";
+        const isFav = wishlist.includes(p.id);
         return `
           <div class="card">
-            <img class="card-img" src="${p.img || fallbackImg}" alt="${p.name}" onerror="this.src='${fallbackImg}'" />
+            <span class="badge-hot">-${discount}%</span>
+            <button class="wish-btn" onclick="toggleWishlist(${p.id})">${isFav ? '❤️' : '🤍'}</button>
+            <img class="card-img" src="${p.img || fallbackImg}" alt="${p.name}" onclick="openModal(${p.id})" onerror="this.src='${fallbackImg}'" />
             <div class="card-body">
-              <div class="card-title">${p.name}</div>
+              <div class="card-title" onclick="openModal(${p.id})">${p.name}</div>
               <div class="meta">
                 <span class="star">★ ${p.rating || "4.9"}</span>
                 <span>• ${p.sold || "جديد"}</span>
@@ -409,16 +540,34 @@
               <div class="price-row">
                 <span class="price">${p.price} درهم</span>
                 <span class="old-price">${oldP}</span>
-                <span class="discount">-${discount}%</span>
               </div>
-              <div class="shipping">✓ توصيل سريع</div>
+              <div class="shipping-tag">✓ الدفع عند الاستلام</div>
               <button class="add-btn" onclick="addToCart(${p.id})">+ أضف إلى السلة</button>
             </div>
           </div>
         `;
       }).join('');
 
+      document.getElementById('wish-count').textContent = wishlist.length;
+      document.getElementById('stat-products').textContent = products.length;
       renderAdminList();
+    }
+
+    function openModal(id) {
+      const p = products.find(item => item.id === id);
+      if (!p) return;
+      const oldP = p.oldPrice && p.oldPrice > p.price ? p.oldPrice : Math.round(p.price * 1.3);
+      document.getElementById('m-img').src = p.img;
+      document.getElementById('m-title').textContent = p.name;
+      document.getElementById('m-desc').textContent = p.desc || "منتج عالي الجودة من متجر NOVEX مع توصيل سريع لجميع المدن.";
+      document.getElementById('m-price').textContent = `${p.price} درهم`;
+      document.getElementById('m-old').textContent = `${oldP} درهم`;
+      document.getElementById('m-add-btn').onclick = () => { addToCart(p.id); closeModal(); };
+      document.getElementById('product-modal').classList.add('show');
+    }
+
+    function closeModal() {
+      document.getElementById('product-modal').classList.remove('show');
     }
 
     function addToCart(id) {
@@ -430,6 +579,7 @@
         if (prod) cart.push({ ...prod, qty: 1 });
       }
       updateCart();
+      showToast("🛒 تمت إضافة المنتج للسلة");
     }
 
     function changeQty(id, delta) {
@@ -441,16 +591,54 @@
       updateCart();
     }
 
+    function applyPromo() {
+      const code = document.getElementById('promo-input').value.trim().toUpperCase();
+      if (code === "NOVEX10") {
+        activePromo = { code: "NOVEX10", type: "percent", value: 10 };
+        showToast("🎉 تم تطبيق خصم 10% بنجاح!");
+      } else if (code === "WELCOME20") {
+        activePromo = { code: "WELCOME20", type: "flat", value: 20 };
+        showToast("🎉 تم تطبيق خصم 20 درهم!");
+      } else {
+        activePromo = null;
+        showToast("❌ كود الخصم غير صالح");
+      }
+      updateCart();
+    }
+
     function updateCart() {
       const countEl = document.getElementById('cart-count');
       const itemsEl = document.getElementById('cart-items');
+      const subEl = document.getElementById('sub-total');
+      const discEl = document.getElementById('discount-val');
       const totalEl = document.getElementById('cart-total');
 
       const totalQty = cart.reduce((sum, i) => sum + i.qty, 0);
-      const totalPrice = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
+      const subTotal = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
+
+      let discount = 0;
+      if (activePromo && subTotal > 0) {
+        discount = activePromo.type === "percent"
+          ? Math.round(subTotal * (activePromo.value / 100))
+          : Math.min(subTotal, activePromo.value);
+      }
+      const finalTotal = Math.max(0, subTotal - discount);
 
       countEl.textContent = totalQty;
-      totalEl.textContent = totalPrice;
+      document.getElementById('stat-cart').textContent = totalQty;
+      subEl.textContent = subTotal;
+      discEl.textContent = discount;
+      totalEl.textContent = finalTotal;
+
+      // Update Free Shipping Bar
+      const pct = Math.min(100, Math.round((subTotal / FREE_SHIPPING_GOAL) * 100));
+      document.getElementById('shipping-fill').style.width = pct + "%";
+      const shipText = document.getElementById('shipping-text');
+      if (subTotal >= FREE_SHIPPING_GOAL) {
+        shipText.innerHTML = "🎉 مبروك! لقد حصلت على <strong>توصيل مجاني بالكامل</strong>!";
+      } else {
+        shipText.innerHTML = `🚚 أضف منتجات بقيمة <strong>${FREE_SHIPPING_GOAL - subTotal} درهم</strong> للحصول على توصيل مجاني!`;
+      }
 
       if (cart.length === 0) {
         itemsEl.innerHTML = '<p style="color:#777; font-size:14px;">السلة فارغة حالياً</p>';
@@ -474,15 +662,28 @@
 
     function orderWhatsApp() {
       if (cart.length === 0) {
-        alert("المرجو إضافة منتج واحد على الأقل إلى السلة.");
+        showToast("أضف منتجاً واحداً على الأقل للسلة");
         return;
       }
-      let msg = "السلام عليكم، أريد طلب المنتجات التالية من متجر NOVEX:\n\n";
+      const name = document.getElementById('cust-name').value.trim() || "غير محدد";
+      const city = document.getElementById('cust-city').value.trim() || "غير محددة";
+      const address = document.getElementById('cust-address').value.trim() || "غير محدد";
+
+      let msg = "🛍️ *طلب جديد من متجر NOVEX PRO*\n\n";
+      msg += `👤 *الاسم:* ${name}\n`;
+      msg += `🏙️ *المدينة:* ${city}\n`;
+      msg += `📍 *العنوان:* ${address}\n\n`;
+      msg += "📦 *المنتجات المطلوبة:*\n";
       cart.forEach(i => {
-        msg += `- ${i.name} (الكمية: ${i.qty}) = ${i.price * i.qty} درهم\n`;
+        msg += `• ${i.name} (×${i.qty}) = ${i.price * i.qty} درهم\n`;
       });
-      const total = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
-      msg += `\nالمجموع الإجمالي: ${total} درهم`;
+
+      const subTotal = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
+      const disc = Number(document.getElementById('discount-val').textContent) || 0;
+      const finalTotal = Number(document.getElementById('cart-total').textContent) || subTotal;
+
+      if (disc > 0) msg += `\n🎟️ *الخصم:* -${disc} درهم (${activePromo.code})`;
+      msg += `\n💰 *المجموع النهائي:* ${finalTotal} درهم`;
 
       const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
       window.open(url, '_blank');
@@ -497,14 +698,15 @@
       const price = Number(document.getElementById('p-price').value);
       const oldPrice = Number(document.getElementById('p-old-price').value) || Math.round(price * 1.3);
       const category = document.getElementById('p-cat').value;
+      const desc = document.getElementById('p-desc').value.trim() || "منتج عالي الجودة من NOVEX";
       const img = document.getElementById('p-img').value.trim() || "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&q=80";
 
       if (!name || !price) {
-        alert("المرجو إدخال اسم المنتج والسعر.");
+        showToast("أدخل اسم المنتج والسعر أولاً");
         return;
       }
 
-      const newProd = {
+      products.unshift({
         id: Date.now(),
         name,
         price,
@@ -512,31 +714,32 @@
         category,
         rating: "4.9",
         sold: "جديد",
+        desc,
         img
-      };
+      });
 
-      products.unshift(newProd);
       saveProducts();
       renderProducts();
-
       document.getElementById('p-name').value = "";
       document.getElementById('p-price').value = "";
       document.getElementById('p-old-price').value = "";
+      document.getElementById('p-desc').value = "";
       document.getElementById('p-img').value = "";
-      alert("تمت إضافة المنتج بنجاح!");
+      showToast("✅ تمت إضافة المنتج بنجاح!");
     }
 
     function deleteProduct(id) {
       products = products.filter(p => p.id !== id);
       saveProducts();
       renderProducts();
+      showToast("🗑️ تم حذف المنتج");
     }
 
     function resetProducts() {
       products = [...defaultProducts];
       saveProducts();
       renderProducts();
-      alert("تمت استعادة المنتجات الافتراضية.");
+      showToast("↺ تمت استعادة المنتجات الافتراضية");
     }
 
     function renderAdminList() {
@@ -553,15 +756,35 @@
     function copyProductsCode() {
       const code = `const defaultProducts = ${JSON.stringify(products, null, 2)};`;
       navigator.clipboard.writeText(code).then(() => {
-        alert("تم نسخ كود المنتجات! الصقه مكان defaultProducts في ملف index.html على GitHub.");
+        showToast("📋 تم نسخ كود المنتجات!");
       }).catch(() => {
-        prompt("انسخ هذا الكود يدوياً:", code);
+        prompt("انسخ هذا الكود:", code);
       });
     }
+
+    // Live Countdown Timer
+    let totalSeconds = 4 * 3600 + 19 * 60 + 45;
+    setInterval(() => {
+      if (totalSeconds <= 0) totalSeconds = 4 * 3600;
+      totalSeconds--;
+      const h = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
+      const m = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+      const s = String(totalSeconds % 60).padStart(2, '0');
+      document.getElementById('t-hr').textContent = h;
+      document.getElementById('t-min').textContent = m;
+      document.getElementById('t-sec').textContent = s;
+    }, 1000);
 
     renderProducts();
   </script>
 </body>
 </html>
 
+      
+ 
+      
+  
+  
+        
+              
     
